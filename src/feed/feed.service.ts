@@ -5,6 +5,11 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { FeedPostEntity } from './models/feed-post.entity';
 import { IFeedPost } from './models/feed-post.interface';
 
+export interface IQueryParams {
+  take?: number;
+  skip?: number;
+}
+
 @Injectable()
 export class FeedService {
   constructor(
@@ -12,8 +17,8 @@ export class FeedService {
     private readonly feedPostRepository: Repository<FeedPostEntity>,
   ) {}
 
-  findAll(): Observable<IFeedPost[]> {
-    return from(this.feedPostRepository.find());
+  findAll({ take, skip }: IQueryParams = {}): Observable<IFeedPost[]> {
+    return from(this.feedPostRepository.find({ take, skip }));
   }
 
   createPost(feedPost: IFeedPost): Observable<IFeedPost> {
