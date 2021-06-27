@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { FeedModule } from './feed/feed.module';
 import envConfig from './configs/env.config';
 
 @Module({
@@ -18,6 +19,7 @@ import envConfig from './configs/env.config';
         synchronize: true,
       }),
     }),
+    FeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
