@@ -1,22 +1,13 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { UserEntity } from 'src/auth/models/user.entity';
+import { BaseEntity } from 'src/models/base.entity';
+import { Column, Entity, ManyToOne } from 'typeorm';
+import { IFeedPost } from './feed-post.interface';
 
 @Entity('feed_post')
-export class FeedPostEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class FeedPostEntity extends BaseEntity implements IFeedPost {
   @Column({ default: '' })
   body: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @ManyToOne(() => UserEntity, (userEntity) => userEntity.feedPosts)
+  author: UserEntity;
 }

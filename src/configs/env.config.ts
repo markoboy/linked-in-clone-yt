@@ -22,10 +22,15 @@ export interface IEnvDatabase {
   sqlite: IEnvDatabaseSqLite;
 }
 
+export interface IEnvAuth {
+  secret: string;
+}
+
 export interface IEnvConfig {
   tempPath: string;
   http: IEnvHttp;
   db: IEnvDatabase;
+  auth: IEnvAuth;
 }
 
 export interface IEnvConfigOptions {
@@ -52,6 +57,9 @@ function envConfig({ tempPath }: IEnvConfigOptions = {}): () => IEnvConfig {
       sqlite: {
         database: resolve(path, process.env.SQLITE_DATABASE),
       },
+    },
+    auth: {
+      secret: process.env.JWT_SECRET,
     },
   });
 }

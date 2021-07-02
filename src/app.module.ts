@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FeedModule } from './feed/feed.module';
+import { AuthModule } from './auth/auth.module';
 import envConfig from './configs/env.config';
 
 @Module({
@@ -20,6 +21,7 @@ import envConfig from './configs/env.config';
       }),
     }),
     FeedModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
