@@ -77,8 +77,4 @@ export class AuthService {
       }),
     );
   }
-
-  findUserById(id: number): Observable<IUser> {
-    return from(this.userRepository.findOne({ id }));
-  }
 }

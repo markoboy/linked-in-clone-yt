@@ -1,3 +1,4 @@
+import { existsSync, mkdirSync } from 'fs';
 import { resolve } from 'path';
 
 export interface IEnvHttp {
@@ -26,15 +27,35 @@ export interface IEnvAuth {
   secret: string;
 }
 
+export interface IEnvMulter {
+  imagePath: string;
+}
+
 export interface IEnvConfig {
   tempPath: string;
   http: IEnvHttp;
   db: IEnvDatabase;
   auth: IEnvAuth;
+  multer: IEnvMulter;
 }
 
 export interface IEnvConfigOptions {
   tempPath?: string;
+}
+
+function generateMulterUploadDirectory(path: string): string {
+  const uploadDestination = resolve(process.cwd(), path);
+
+  try {
+    if (!existsSync(uploadDestination)) {
+      mkdirSync(uploadDestination);
+    }
+  } catch (error) {
+    console.error('An error occurred while trying to create a directory');
+    console.error(error);
+  }
+
+  return uploadDestination;
 }
 
 function envConfig({ tempPath }: IEnvConfigOptions = {}): () => IEnvConfig {
@@ -60,6 +81,9 @@ function envConfig({ tempPath }: IEnvConfigOptions = {}): () => IEnvConfig {
     },
     auth: {
       secret: process.env.JWT_SECRET,
+    },
+    multer: {
+      imagePath: generateMulterUploadDirectory(process.env.MULTER_IMAGE_PATH),
     },
   });
 }

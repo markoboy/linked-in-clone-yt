@@ -17,6 +17,9 @@ export class UserEntity extends BaseEntity {
   @Column({ select: false })
   password: string;
 
+  @Column({ nullable: true })
+  imagePath: string;
+
   @Column({ type: 'text', default: ERole.USER })
   role: ERole;
 
