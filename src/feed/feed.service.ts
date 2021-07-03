@@ -22,6 +22,12 @@ export class FeedService {
     return from(this.feedPostRepository.find({ take, skip }));
   }
 
+  findById(id: number): Observable<IFeedPost> {
+    return from(
+      this.feedPostRepository.findOne({ id }, { relations: ['author'] }),
+    );
+  }
+
   createPost(user: IUser, feedPost: IFeedPost): Observable<IFeedPost> {
     feedPost.author = user;
     return from(this.feedPostRepository.save(feedPost));
